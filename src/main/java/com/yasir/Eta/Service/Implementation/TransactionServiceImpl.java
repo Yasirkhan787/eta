@@ -45,4 +45,17 @@ public class TransactionServiceImpl {
 
         transactionRepository.save(transaction);
     }
+
+    public double getTotalExpense() {
+        return 0.0;
+    }
+
+    public double getTotalIncome() {
+        return 0.0;
+    }
+
+    public List<Transaction> getRecentTransactions(User user) {
+        transactionRepository.findAllByUser(user);
+        return null;
+    }
 }

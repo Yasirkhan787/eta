@@ -52,6 +52,18 @@
     .sidebar.collapsed ~ .content {
         margin-left: 80px;
     }
+
+    .content-dashboard {
+        margin-left: 250px;
+        padding: 20px;
+        width: 80%;
+        transition: margin-left 0.3s;
+    }
+    .sidebar.collapsed ~ .content-dashboard {
+        width: 100%
+        margin-left: 80px;
+    }
+
     /* Make sidebar responsive */
     @media (max-width: 768px) {
         .sidebar {

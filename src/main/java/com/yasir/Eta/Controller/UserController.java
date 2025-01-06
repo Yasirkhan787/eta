@@ -2,6 +2,7 @@ package com.yasir.Eta.Controller;
 
 import com.yasir.Eta.Entities.User;
 import com.yasir.Eta.Requests.RegisterRequest;
+import com.yasir.Eta.Service.Implementation.TransactionServiceImpl;
 import com.yasir.Eta.Service.Implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,11 +20,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final TransactionServiceImpl transactionService;
+
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, TransactionServiceImpl transactionService) {
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
+
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Redirect to login page if the user is not authenticated
+            return "redirect:/login";  // Adjust the login path as needed
+        }
+
+        // Get the user from the authentication object
+        String username = authentication.getName();
+        User user = userService.getUserByUsername(username);
+
+        if (user == null) {
+            // Return an error page or redirect as needed if user is not found
+            return "error";  // Redirect or return an error template as appropriate
+        }
+
+        // Fetching Total Expense and Total Income
+        double totalExpense = transactionService.getTotalExpense();
+        double totalIncome = transactionService.getTotalIncome();
+
+        // Fetching Recent Transactions
+        model.addAttribute("recentTransactions", transactionService.getRecentTransactions(user));
+
+        // Fetching Budgets
+        //model.addAttribute("budgets", budgetService.getAllBudgets());
+
+        // Adding data to the model
+        model.addAttribute("totalExpense", totalExpense);
+        model.addAttribute("totalIncome", totalIncome);
+
+        return "dashboard"; // Renders the dashboard.html view
+    }
 
     @GetMapping("/profile")
     public String showProfile(Model model) {

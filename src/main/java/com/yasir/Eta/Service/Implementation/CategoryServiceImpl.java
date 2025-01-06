@@ -4,6 +4,7 @@ import com.yasir.Eta.Entities.Category;
 import com.yasir.Eta.Entities.User;
 import com.yasir.Eta.Repositories.CategoryRepository;
 import com.yasir.Eta.Requests.CategoryRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,12 @@ public class CategoryServiceImpl {
 
     // Get category by Type
     public List<Category> getCategoriesByTypeAndUser(String type, User user) {
-        return categoryRepository.findByTypeAndUser(type, user);
+        List<Category> expenseCategories = categoryRepository.findByTypeAndUser(type, user);
+        expenseCategories.forEach(category ->
+                System.out.println("Category: " + category)
+        );
+
+        return expenseCategories;
     }
 
     // Get Category by Type only

@@ -11,12 +11,16 @@
         <div class="d-flex justify-content-between align-items-center px-3">
             <h3 class="text-center text-white" id="sidebar-title">Expense Tracker</h3>
             <!-- Toggle button -->
-            <button class="btn btn-dark" id="toggle-btn">
+            <button class="btn btn-light" id="toggle-btn">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
         <div id="sidebar-content">
-            <a href="/dashboard" class="sidebar-link"><i class="bi bi-house-door"></i> Home (Dashboard)</a>
+            <a href="/dashboard" class="sidebar-link d-flex align-items-center">
+                <i class="bi bi-currency-dollar me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+                <span style="font-weight: bold;">My Expense Tracker</span>
+            </a>
+            <a href="/v1/dashboard" class="sidebar-link"><i class="bi bi-house-door"></i> Home</a>
             <a href="/v1/transaction/income" class="sidebar-link"><i class="bi bi-cash"></i> Income</a>
             <a href="/v1/transaction/expense" class="sidebar-link"><i class="bi bi-credit-card"></i> Expense</a>
             <a href="/v1/category" class="sidebar-link"><i class="bi bi-list"></i> Categories</a>
