@@ -28,7 +28,9 @@
                             <option value="" disabled selected>Select category</option>
                             <option th:each="category : ${incomeCategories}"
                                     th:value="${category.id}"
-                                    th:text="${category.name}"></option>
+                                    th:text="${category.name}">
+
+                            </option>
                         </select>
                     </div>
                     <!-- Transaction Type -->

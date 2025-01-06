@@ -10,6 +10,7 @@ import com.yasir.Eta.Service.Implementation.CategoryServiceImpl;
 import com.yasir.Eta.Service.Implementation.TransactionServiceImpl;
 import com.yasir.Eta.Service.Implementation.TransactionTypeServiceImpl;
 import com.yasir.Eta.Service.Implementation.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -121,7 +122,7 @@ public class TransactionController {
         }
 
         // Get all income categories of Logged-In user
-        List<Category> incomeCategories = categoryService.getCategoriesByTypeAndUser("Income", user);
+        List<Category> incomeCategories = categoryService.getCategoriesByType("Income");
         // Get all transaction types
         List<TransactionType> transactionTypes = transactionTypeService.getAllTransaction();
         // Add the TransactionRequest object to the model
@@ -192,8 +193,9 @@ public class TransactionController {
             return "error";  // Redirect or return an error template as appropriate
         }
 
-        // Get all income categories
-        List<Category> expenseCategories = categoryService.getCategoriesByTypeAndUser("Expense", user);
+        // Get all expense categories of logged-in user
+        List<Category> expenseCategories = categoryService.getCategoriesByType("Expense");
+
         // Get all transaction types
         List<TransactionType> transactionTypes = transactionTypeService.getAllTransaction();
         // Add the TransactionRequest object to the model
@@ -201,7 +203,7 @@ public class TransactionController {
         // List of predefined or user-defined expense categories
         model.addAttribute("expenseCategories", expenseCategories);
         // List of predefined transaction types
-        model.addAttribute("transactionTypes", transactionTypes);
+        model.addAttribute("transactionMethods", transactionTypes);
 
         return "add-expense"; // Corresponds to the Add Expense form template
     }

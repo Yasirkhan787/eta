@@ -17,44 +17,46 @@
                 <form th:action="@{/v1/transaction/add-expense}" method="post" th:object="${transactionRequest}">
                     <!-- Title -->
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
+                        <div class="form-label">Title</div>
                         <input type="text" id="title" name="title" class="form-control"
                                placeholder="Enter expense title" required>
                     </div>
                     <!-- Category -->
                     <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
+                        <div class="form-label">Category</div>
                         <select id="category" name="category" class="form-select" required>
                             <option value="" disabled selected>Select category</option>
                             <option th:each="category : ${expenseCategories}"
                                     th:value="${category.id}"
-                                    th:text="${category.name}"></option>
+                                    th:text="${category.name}">
+                            </option>
                         </select>
                     </div>
                     <!-- Transaction Type -->
                     <div class="mb-3">
-                        <label for="transactionType" class="form-label">Transaction Type</label>
+                        <div class="form-label">Transaction Type</div>
                         <select id="transactionType" name="transactionType" class="form-select" required>
                             <option value="" disabled selected>Select transaction type</option>
-                            <option th:each="type : ${transactionTypes}"
-                                    th:value="${type}"
-                                    th:text="${type}"></option>
+                            <option th:each="transactionType : ${transactionMethods}"
+                                    th:value="${transactionType.id}"
+                                    th:text="${transactionType.type}">
+                            </option>
                         </select>
                     </div>
                     <!-- Amount -->
                     <div class="mb-3">
-                        <label for="amount" class="form-label">Amount</label>
+                        <div class="form-label">Amount</div>
                         <input type="number" id="amount" name="amount" class="form-control"
                                placeholder="Enter expense amount" required>
                     </div>
                     <!-- Transaction Date -->
                     <div class="mb-3">
-                        <label for="transactionDate" class="form-label">Transaction Date</label>
+                        <div class="form-label">Transaction Date</div>
                         <input type="date" id="transactionDate" name="transactionDate" class="form-control" required>
                     </div>
                     <!-- Description -->
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
+                        <div class="form-label">Description</div>
                         <textarea id="description" name="description" class="form-control"
                                   placeholder="Enter expense description" rows="3"></textarea>
                     </div>
