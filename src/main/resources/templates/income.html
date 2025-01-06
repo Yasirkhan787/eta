@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+<div th:replace="layout :: sidebar"></div>
+
+<!-- Main Content -->
+<div class="content">
+    <!-- Expense Section -->
+    <div id="expense" class="container mt-5">
+        <h3 class="mb-4">Income Transactions</h3>
+
+        <!-- Add Expense Button -->
+        <a href="/v1/transaction/add-income" class="btn btn-primary mb-3">Add New Expense</a>
+
+        <!-- Income List Table -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Income Transactions</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Transaction Method</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="transaction : ${transactions}">
+                        <td th:text="${transaction.title}"></td>
+                        <td th:text="${transaction.amount}"></td>
+                        <td th:text="${#dates.format(transaction.transactionDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${transaction.category.name}"></td>
+                        <td th:text="${transaction.transactionType.type}"></td>
+                        <td th:text="${transaction.description}"></td>
+                        <td>
+                            <a th:href="@{/v1/transaction/edit/{id}(id=${transaction.id})}" class="btn btn-warning btn-sm">Edit</a>
+                            <a th:href="@{/v1/transaction/delete/{id}(id=${transaction.id})}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

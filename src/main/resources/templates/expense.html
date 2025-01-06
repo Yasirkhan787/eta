@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+<div th:replace="layout :: sidebar"></div>
+
+<!-- Main Content -->
+<div class="content">
+    <!-- Category Section -->
+    <div id="category" class="container mt-5">
+        <h3 class="mb-4">Categories</h3>
+
+        <!-- Add Category Button -->
+        <a href="/v1/category/add" class="btn btn-primary mb-3">Add New Category</a>
+
+        <!-- Category List Table -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">All Categories</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Type</th>
+                        <th>Is Predefined</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="categoriesContainer">
+                    <!-- Dynamically Populated Rows (Empty initially) -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Utility function to fetch and display categories based on the selected type
+    function fetchCategories(type) {
+        let endpoint = "/v1/category"; // Default endpoint for all categories
+
+        if (type) {
+            endpoint += "/" + type; // Add type filter (income or expense)
+        }
+
+        fetch(endpoint)
+            .then(response => response.json())
+            .then(data => {
+                const categoryContainer = document.getElementById("categoriesContainer");
+                categoryContainer.innerHTML = ""; // Clear existing rows
+
+                // Dynamically generate rows for categories
+                data.forEach(category => {
+                    const row = document.createElement("tr");
+
+                    // Create table cells for each field
+                    const nameCell = document.createElement("td");
+                    nameCell.textContent = category.name;
+
+                    const typeCell = document.createElement("td");
+                    typeCell.textContent = category.type;
+
+                    const predefinedCell = document.createElement("td");
+                    predefinedCell.textContent = category.isPredefined ? "Yes" : "No";
+
+                    const actionCell = document.createElement("td");
+                    if (category.isPredefined) {
+                        actionCell.textContent = "Not Modifiable";
+                    } else {
+                        const editButton = document.createElement("a");
+                        editButton.className = "btn btn-warning btn-sm";
+                        editButton.textContent = "Edit";
+                        editButton.href = `/v1/category/edit/${category.id}`;
+
+                        const deleteButton = document.createElement("a");
+                        deleteButton.className = "btn btn-danger btn-sm";
+                        deleteButton.textContent = "Delete";
+                        deleteButton.href = `/v1/category/delete/${category.id}`;
+
+                        actionCell.appendChild(editButton);
+                        actionCell.appendChild(deleteButton);
+                    }
+
+                    // Append cells to the row
+                    row.appendChild(nameCell);
+                    row.appendChild(typeCell);
+                    row.appendChild(predefinedCell);
+                    row.appendChild(actionCell);
+
+                    // Append row to the table
+                    categoryContainer.appendChild(row);
+                });
+            })
+            .catch(error => console.error("Error fetching categories:", error));
+    }
+
+    // Event listeners for category buttons
+    document.getElementById("allBtn").addEventListener("click", function() {
+        fetchCategories(""); // Fetch all categories
+    });
+
+    document.getElementById("incomeBtn").addEventListener("click", function() {
+        fetchCategories("income"); // Fetch income categories
+    });
+
+    document.getElementById("expenseBtn").addEventListener("click", function() {
+        fetchCategories("expense"); // Fetch expense categories
+    });
+
+    // Fetch all categories by default
+    fetchCategories(""); // Default: load all categories
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
